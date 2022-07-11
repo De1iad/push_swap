@@ -6,7 +6,7 @@
 /*   By: obibby <obibby@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 10:54:35 by obibby            #+#    #+#             */
-/*   Updated: 2022/07/11 00:06:45 by obibby           ###   ########.fr       */
+/*   Updated: 2022/07/11 23:22:12 by obibby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,12 @@ int	main(int argc, char *argv[])
 	int	*stack2;
 	int	i;
 	int	sum;
+	t_info info;
 
 	sum = 0;
+	info.size1 = argc - 1;
+	info.size2 = 0;
+	info.sort = 0;
 	if (argc == 1)
 		return (0);
 	i = checkinput(argv, argc - 1);
@@ -138,10 +142,18 @@ int	main(int argc, char *argv[])
 		sum += stack1[i - 1];
 	}
 	if (argc > 6)
-		prepsort(stack1, stack2, sum / (argc - 1), argc - 1);
+		meansort(stack1, stack2, sum / (argc - 1), &info);
 	else
 		smallsort(stack1, stack2, argc - 1);
-	//ft_printf("%d, %d, %d, %d, %d\n", stack1[0], stack1[1], stack1[2], stack1[3], stack1[4]);
+	/*i = 0;
+	while (i < argc - 1)
+		ft_printf("%d, ", stack1[i++]);
+	ft_printf("\n");
+	i = 0;
+	while (i < argc - 1)
+		ft_printf("%d, ", stack2[i++]);
+	ft_printf("\n");
+	ft_printf("size1: %d, size2: %d\n", info.size1, info.size2);*/
 	free(stack1);
 	free(stack2);
 	return (0);

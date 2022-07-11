@@ -6,7 +6,7 @@
 /*   By: obibby <obibby@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 21:49:26 by obibby            #+#    #+#             */
-/*   Updated: 2022/07/11 00:06:44 by obibby           ###   ########.fr       */
+/*   Updated: 2022/07/11 18:03:36 by obibby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	sortstacks5(int *stack1, int *stack2, t_info info)
 	ft_printf("pb\n");
 	push_to(stack1, stack2, 5, 1);
 	info.min1 = find_min(stack1, info.size1);
-	if (stack1[0] < stack1[1] && stack1[1] < stack1[2] && stack2[0] < stack2[1])
+	if (stack1[0] < stack1[1] && stack1[1] < stack1[2] && stack2[0] < stack2[1] && stack1[0] < stack2[1])
 	{
 		if (stack2[1] == info.max1)
 			ft_printf("sb\n");
@@ -97,14 +97,12 @@ void	sort5(int *stack1, int *stack2, t_info info)
 	ft_printf("pa\n");
 	push_to(stack2, stack1, info.size2--, info.size1++);
 	i = 0;
-	//ft_printf("%d, %d, %d, %d, %d\n", stack1[0], stack1[1], stack1[2], stack1[3], stack1[4]);
 	while (i < info.size1 - 1)
 	{
 		if (stack1[i] > stack2[0] && ((i > 0 && (stack1[i - 1] < stack2[0] || stack1[i - 1] == info.max1)) || stack1[3] == info.max1 || stack1[3] < stack2[0]))
 			break;
 		i++;
 	}
-	//ft_printf("%d\n", i);
 	if (i == 1 || i == 2)
 	{
 		while (i-- > 0)

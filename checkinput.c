@@ -6,44 +6,30 @@
 /*   By: obibby <obibby@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 21:56:26 by obibby            #+#    #+#             */
-/*   Updated: 2022/07/10 21:59:36 by obibby           ###   ########.fr       */
+/*   Updated: 2022/07/11 18:57:03 by obibby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	check_sorted(int *stack, int n, t_info info)
+int	check_sorted(int *stack, int size, int n)
 {
 	int	i;
 	int	sorted;
 
-	i = 1;
+	i = 0;
 	sorted = 1;
-	if (n == 1)
+	while (n == 1 && i < size - 1)
 	{
-		if (stack[0] < stack[info.size1 - 1]
-			&& stack[info.size1 - 1] != info.max1)
+		if (stack[i] > stack[i + 1])
 			sorted = 0;
-		while (i <= info.size1 - 1)
-		{
-			if (stack[i - 1] > stack[i] && (stack[i - 1] != info.max1
-					|| stack[i] != info.min1))
-				sorted = 0;
-			i++;
-		}
+		i++;
 	}
-	if (n == 2)
+	while (n == 2 && i < size - 1)
 	{
-		if (stack[0] > stack[info.size2 - 1]
-			&& stack[info.size2 - 1] != info.min2)
+		if (stack[i] < stack[i + 1])
 			sorted = 0;
-		while (i <= info.size2 - 1)
-		{
-			if (stack[i - 1] < stack[i] && (stack[i - 1] != info.min2
-					|| stack[i] != info.max2))
-				sorted = 0;
-			i++;
-		}
+		i++;
 	}
 	return (sorted);
 }
