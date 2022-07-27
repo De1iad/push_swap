@@ -6,18 +6,17 @@
 /*   By: obibby <obibby@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 21:51:03 by obibby            #+#    #+#             */
-/*   Updated: 2022/07/11 18:57:09 by obibby           ###   ########.fr       */
+/*   Updated: 2022/07/24 13:00:14 by obibby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-#include "libft/libft.h"
-#include <limits.h>
+# include "libft/libft.h"
+# include <limits.h>
 
 typedef struct s_info {
-	int	moveno;
 	int	size1;
 	int	size2;
 	int	max1;
@@ -25,20 +24,26 @@ typedef struct s_info {
 	int	min1;
 	int	min2;
 	int	sort;
+	int	div;
+	int	total;
+	int	divtotal;
 }	t_info;
 
-int		smallsort(int *stack1, int *stack2, int size);
+void	init_struct(t_info *info, int argc);
+int		smallsort(int *stack1, int *stack2, t_info *info);
+void	sort_rem(int *stack1, int *stack2, t_info *info);
 int		push_to(int *src, int *dest, int ssize, int dsize);
 void	stack_rotate(int *stack, int size, int dir, char *str);
 void	swap(int *stack, char *str);
 int		find_min(int *stack, int size);
 int		find_max(int *stack, int size);
-int		checkinput(char **argv, int size);
-int		meansort(int *stack1, int *stack2, int mean, t_info *info);
+int		checkinput(char **argv, int s);
+int		meansort(int *stack1, int *stack2, int *sorted, t_info *info);
 int		check_sorted(int *stack, int size, int n);
 void	recombine_a(int *stack1, int *stack2, t_info *info);
 void	swap_both(int *stack1, int *stack2);
 void	stack_shift(int *stack, int size, int dir);
 int		meansortb(int *stack1, int *stack2, int count, t_info *info);
+int		sort3(int *stack1);
 
 #endif

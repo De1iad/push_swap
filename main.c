@@ -6,7 +6,7 @@
 /*   By: obibby <obibby@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 10:54:35 by obibby            #+#    #+#             */
-/*   Updated: 2022/07/11 23:22:12 by obibby           ###   ########.fr       */
+/*   Updated: 2022/07/24 12:45:32 by obibby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,117 +44,49 @@ int	find_max(int *stack, int size)
 	return (x);
 }
 
-void	stack_shift(int *stack, int size, int dir)
+void	presort(int *stack, char **argv, int *sorted, int size)
 {
+	int	n;
 	int	i;
+	int	x;
 
 	i = 0;
-	if (dir == 1)
+	while (argv[++i])
+		stack[i - 1] = ft_atoi(argv[i]);
+	n = 0;
+	while (n < size)
 	{
-		while (i < size - 1)
+		x = 0;
+		i = 0;
+		while (i < size)
 		{
-			stack[i] = stack[i + 1];
-			i++;
+			if (stack[n] > stack[i++])
+				x++;
 		}
-		stack[i] = '\0';
-	}
-	else
-	{
-		while (i <= size - 1)
-			i++;
-		while (i > 0)
-		{
-			stack[i] = stack[i - 1];
-			i--;
-		}
-		stack[0] = '\0';
-	}
-}
-
-void	recombine_a(int *stack1, int *stack2, t_info *info)
-{
-	int		i;
-	char	*str;
-
-	i = 0;
-	while (stack1[0] != info->min1)
-	{
-		stack_rotate(stack1, info->size1, 1, "ra\n");
-		info->moveno++;
-	}
-	while (stack2[0] != info->max2)
-	{
-		stack_rotate(stack2, info->size2, 1, "rb\n");
-		info->moveno++;
-	}
-	while (info->size2 > 0)
-	{
-		ft_printf("pa\n");
-		push_to(stack2, stack1, info->size2, info->size1);
-		info->size1++;
-		info->size2--;
-		info->moveno++;
-	}
-	while (stack1[i] != info->min1)
-		i++;
-	if (i > (info->size1 + info->size2) / 2)
-	{
-		str = "rra\n";
-		i = -1;
-	}
-	else
-	{
-		str = "ra\n";
-		i = 1;
-	}
-	while (stack1[0] != info->min1)
-	{
-		stack_rotate(stack1, info->size1, i, str);
-		info->moveno++;
+		sorted[x] = stack[n++];
 	}
 }
 
 int	main(int argc, char *argv[])
 {
-	int	*stack1;
-	int	*stack2;
-	int	i;
-	int	sum;
-	t_info info;
+	int		*stack1;
+	int		*stack2;
+	int		*sorted;
+	t_info	info;
 
-	sum = 0;
-	info.size1 = argc - 1;
-	info.size2 = 0;
-	info.sort = 0;
-	if (argc == 1)
+	if (checkinput(argv, argc - 1) > 0)
 		return (0);
-	i = checkinput(argv, argc - 1);
-	if (i == 1)
-		write(STDERR_FILENO, "Error\n", 6);
-	if (i > 0)
-		return (0);
-	stack1 = ft_calloc(argc + 1, sizeof(int));
-	stack2 = ft_calloc(argc + 1, sizeof(int));
-	i = 0;
-	while (argv[++i])
-	{
-		stack1[i - 1] = ft_atoi(argv[i]);
-		sum += stack1[i - 1];
-	}
+	init_struct(&info, argc);
+	stack1 = ft_calloc(argc, sizeof(int));
+	stack2 = ft_calloc(argc, sizeof(int));
+	sorted = ft_calloc(argc, sizeof(int));
+	presort(stack1, argv, sorted, argc - 1);
 	if (argc > 6)
-		meansort(stack1, stack2, sum / (argc - 1), &info);
+		meansort(stack1, stack2, sorted, &info);
 	else
-		smallsort(stack1, stack2, argc - 1);
-	/*i = 0;
-	while (i < argc - 1)
-		ft_printf("%d, ", stack1[i++]);
-	ft_printf("\n");
-	i = 0;
-	while (i < argc - 1)
-		ft_printf("%d, ", stack2[i++]);
-	ft_printf("\n");
-	ft_printf("size1: %d, size2: %d\n", info.size1, info.size2);*/
+		smallsort(stack1, stack2, &info);
 	free(stack1);
 	free(stack2);
+	free(sorted);
 	return (0);
 }

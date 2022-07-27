@@ -6,11 +6,38 @@
 /*   By: obibby <obibby@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 22:02:07 by obibby            #+#    #+#             */
-/*   Updated: 2022/07/10 22:02:47 by obibby           ###   ########.fr       */
+/*   Updated: 2022/07/24 12:08:10 by obibby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+void	stack_shift(int *stack, int size, int dir)
+{
+	int	i;
+
+	i = 0;
+	if (dir == 1)
+	{
+		while (i < size - 1)
+		{
+			stack[i] = stack[i + 1];
+			i++;
+		}
+		stack[i] = '\0';
+	}
+	else
+	{
+		while (i <= size - 1)
+			i++;
+		while (i > 0)
+		{
+			stack[i] = stack[i - 1];
+			i--;
+		}
+		stack[0] = '\0';
+	}
+}
 
 void	stack_rotate(int *stack, int size, int dir, char *str)
 {

@@ -6,11 +6,24 @@
 /*   By: obibby <obibby@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 21:56:26 by obibby            #+#    #+#             */
-/*   Updated: 2022/07/11 18:57:03 by obibby           ###   ########.fr       */
+/*   Updated: 2022/07/24 12:35:32 by obibby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+void	init_struct(t_info *info, int argc)
+{
+	info->size1 = argc - 1;
+	info->size2 = 0;
+	info->sort = 0;
+	if (argc - 1 <= 100)
+		info->divtotal = 4;
+	if (argc - 1 > 100)
+		info->divtotal = 8;
+	info->div = (info->size1 / info->divtotal);
+	info->total = argc - 1;
+}
 
 int	check_sorted(int *stack, int size, int n)
 {
@@ -56,7 +69,7 @@ int	checkchars(char **argv, int size)
 	return (0);
 }
 
-int	checkinput(char **argv, int size)
+int	checkinput(char **argv, int s)
 {
 	int	i;
 	int	j;
@@ -64,21 +77,23 @@ int	checkinput(char **argv, int size)
 
 	i = 0;
 	j = 0;
-	ord = 2;
-	if (checkchars(argv, size) == 1)
-		return (1);
-	while (i++ < size)
+	ord = 1;
+	if (s == 0)
+		ord = 2;
+	if (ord == 1 && checkchars(argv, s) == 1)
+		ord = 3;
+	while (ord != 2 && ord != 3 && i++ < s)
 	{
 		if (ft_atoi(argv[i]) > INT_MAX || ft_atoi(argv[i]) < INT_MIN)
-			return (1);
-		if (ord == 2 && i < size && ft_atoi(argv[i + 1]) < ft_atoi(argv[i]))
+			ord = 3;
+		else if (ord == 1 && i < s && ft_atoi(argv[i + 1]) < ft_atoi(argv[i]))
 			ord = 0;
-		while (j++ < size)
-		{
+		while (j++ < s)
 			if (ft_atoi(argv[i]) == ft_atoi(argv[j]) && i != j)
-				return (1);
-		}
+				ord = 3;
 		j = 0;
 	}
+	if (ord == 3)
+		write(STDERR_FILENO, "Error\n", 6);
 	return (ord);
 }
