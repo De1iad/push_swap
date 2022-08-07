@@ -6,7 +6,7 @@
 /*   By: obibby <obibby@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 21:56:26 by obibby            #+#    #+#             */
-/*   Updated: 2022/07/24 12:35:32 by obibby           ###   ########.fr       */
+/*   Updated: 2022/07/27 20:15:32 by obibby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ void	init_struct(t_info *info, int argc)
 		info->divtotal = 4;
 	if (argc - 1 > 100)
 		info->divtotal = 8;
-	info->div = (info->size1 / info->divtotal);
+	info->div = (info->size1 / 2);
 	info->total = argc - 1;
+	info->currentdiv = 0;
 }
 
 int	check_sorted(int *stack, int size, int n)

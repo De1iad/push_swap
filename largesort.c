@@ -6,7 +6,7 @@
 /*   By: obibby <obibby@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 21:58:09 by obibby            #+#    #+#             */
-/*   Updated: 2022/07/24 11:31:55 by obibby           ###   ########.fr       */
+/*   Updated: 2022/08/07 00:01:25 by obibby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,41 +27,32 @@ int	find_mean(int *stack, int size)
 void	sortb(int *stack1, int *stack2, int *sorted, t_info *info)
 {
 	int	i;
-	int	j;
+	int	r;
 	int	x;
 
-	i = 0;
-	x = 0;
-	if (info->divtotal == 7)
-		x = 4;
-	while (i < info->div + x)
+	r = 1;
+	info->newdiv /= 2;
+	while (info->newdiv >= 3)
 	{
-		j = 0;
-		while (stack2[j] != sorted[info->div * info->divtotal - i - 1 + x])
-			j++;
-		if (j == 1)
-			swap(stack2, "sb\n");
-		else if (j > info->div + x
-			&& stack2[0] != sorted[info->div * info->divtotal - i - 1 + x])
+		i = 0;
+		x = info->size1 - 1;
+		while (i++ < info->newdiv)
 		{
-			while (stack2[0] != sorted[info->div * info->divtotal - i - 1 + x])
+			if (stack2[0] > sorted[x + (info->newdiv - 1)])
+			{
+				ft_printf("pa\n");
+				push_to(stack2, stack1, info->size2--, info->size1++);
+			}
+			else if (r == 1)
+				stack_rotate(stack2, info->size2, 1, "rb\n");
+			else if (r == -1)
 				stack_rotate(stack2, info->size2, -1, "rrb\n");
 		}
-		else if (stack2[0] != sorted[info->div * info->divtotal - i - 1 + x])
-		{
-			while (stack2[1] != sorted[info->div * info->divtotal - i - 1 + x])
-				stack_rotate(stack2, info->size2, 1, "rb\n");
-			while (stack2[j] != sorted[info->div * info->divtotal - i - 2 + x])
-				j++;
-			if (j > info->div + x)
-				swap(stack2, "sb\n");
-			else
-				stack_rotate(stack2, info->size2, 1, "rb\n");
-		}
-		ft_printf("pa\n");
-		push_to(stack2, stack1, info->size2--, info->size1++);
-		i++;
+		if (r == 1)
+			stack_rotate(stack2, info->size2, -1, "rrb\n");
+		r *= -1;
 	}
+	
 }
 
 void	sorta(int *stack1, int *stack2, int *sorted, t_info *info)

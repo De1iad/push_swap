@@ -6,7 +6,7 @@
 /*   By: obibby <obibby@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 10:54:35 by obibby            #+#    #+#             */
-/*   Updated: 2022/07/24 12:45:32 by obibby           ###   ########.fr       */
+/*   Updated: 2022/08/06 21:19:06 by obibby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	main(int argc, char *argv[])
 	sorted = ft_calloc(argc, sizeof(int));
 	presort(stack1, argv, sorted, argc - 1);
 	if (argc > 6)
-		meansort(stack1, stack2, sorted, &info);
+		newsort(stack1, stack2, sorted, &info);
 	else
 		smallsort(stack1, stack2, &info);
 	free(stack1);
