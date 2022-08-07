@@ -6,11 +6,52 @@
 /*   By: obibby <obibby@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 15:39:48 by obibby            #+#    #+#             */
-/*   Updated: 2022/08/07 16:28:39 by obibby           ###   ########.fr       */
+/*   Updated: 2022/08/07 20:42:06 by obibby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+void	push_m2(int *stack1, int *stack2, int *sorted, t_info *info)
+{
+	int i;
+	int	j;
+	int	keep;
+
+	j = 0;
+	while (sorted[j] != stack1[info->best_index])
+		j++;
+	while (info->size1 > info->best_count)
+	{
+		i = -1;
+		keep = 0;
+		while (++i < info->best_count)
+		{
+			if (stack1[0] == sorted[j + i])
+			{
+				stack_rotate(stack1, info->size1, 1, "ra\n");
+				keep = 1;
+				break ;
+			}
+		}
+		if (keep == 0)
+		{
+			ft_printf("pb\n");
+		    push_to(stack1, stack2, info->size1--, info->size2++);
+		}
+	}
+	/*i = 0;
+	while (i < info->size1)
+		ft_printf("%d ", stack1[i++]);
+	ft_printf("\n");
+	i = 0;
+	while (i < info->size2)
+		ft_printf("%d ", stack2[i++]);
+	ft_printf("\n");
+	pause();*/
+	sort_b(stack1, stack2, info);
+	rotate_to_order(stack1, info);
+}
 
 void	rotate_to_order(int *stack1, t_info *info)
 {
@@ -72,8 +113,10 @@ void	check_path(int *stack1, int *stack2, t_info *info)
 		else if (stack2[i] > info->max1)
 			while (stack1[j++] != info->max1);
 		else if (stack2[i] < info->min1)
+		{
 			while (stack1[j] != info->min1)
 				j++;
+		}
 		if (i >= j)
 			mc_rr = i;
 		else if (i < j)
@@ -103,6 +146,8 @@ void	check_path(int *stack1, int *stack2, t_info *info)
 
 void	sort_b(int *stack1, int *stack2, t_info *info)
 {
+	//int i;
+
 	while (info->size2 > 0)
 	{
 		check_path(stack1, stack2, info);
@@ -134,28 +179,43 @@ void	sort_b(int *stack1, int *stack2, t_info *info)
 		}
 		ft_printf("pa\n");
 		push_to(stack2, stack1, info->size2--, info->size1++);
+		/*i = 0;
+		while (i < info->size1)
+			ft_printf("%d ", stack1[i++]);
+		ft_printf("\n");
+		i = 0;
+		while (i < info->size2)
+			ft_printf("%d ", stack2[i++]);
+		ft_printf("\n");
+		sleep(1);*/
 	}
 }
 
 void	push_m1(int *stack1, int *stack2, t_info *info)
 {
-	int	i;
+	//int	i;
 	int	j;
 	int	n;
 
-	i = 0;
-	info->previous_val = stack1[info->best_index];
-	while (i++ < info->total && info->size1 > info->best_count)
+	//i = 0;
+	info->start_val = stack1[info->best_index];
+	while (/*i++ < info->total && */info->size1 > info->best_count)
 	{
 		j = -1;
 		n = 0;
-		info->current_val = info->previous_val;
+		info->current_val = info->start_val;
 		while (stack1[n] != info->current_val)
 			n++;
 		while (++j < info->size1)
 		{
 			if (info->current_val == stack1[0])
 			{
+				if (info->previous_val < stack1[1] && info->current_val > stack1[1])
+				{
+					info->best_count++;
+					swap(stack1, "sa\n");
+				}
+				info->previous_val = info->current_val;
 				stack_rotate(stack1, info->size1, 1, "ra\n");
 				break;
 			}
@@ -223,6 +283,6 @@ void	largesort(int *stack1, int *stack2, int *sorted, t_info *info)
 	}
 	if (info->best_method == 1)
 		push_m1(stack1, stack2, info);
-	/*else if (info->best_method == 2)
-		push_m2(stack1, stack2, sorted, info);*/
+	else if (info->best_method == 2)
+		push_m2(stack1, stack2, sorted, info);
 }

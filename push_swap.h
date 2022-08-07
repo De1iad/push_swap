@@ -6,7 +6,7 @@
 /*   By: obibby <obibby@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 21:51:03 by obibby            #+#    #+#             */
-/*   Updated: 2022/08/07 16:16:00 by obibby           ###   ########.fr       */
+/*   Updated: 2022/08/07 19:15:45 by obibby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct s_info {
 	int	min1;
 	int	min2;
 	int	total;
+	int	start_val;
 	int	current_val;
 	int	previous_val;
 	int	current_index;
@@ -48,5 +49,7 @@ void	swap_both(int *stack1, int *stack2);
 void	stack_shift(int *stack, int size, int dir);
 int		sort3(int *stack1);
 void    largesort(int *stack1, int *stack2, int *sorted, t_info *info);
+void	rotate_to_order(int *stack1, t_info *info);
+void	sort_b(int *stack1, int *stack2, t_info *info);
 
 #endif

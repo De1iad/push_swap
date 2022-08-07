@@ -6,7 +6,7 @@
 /*   By: obibby <obibby@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 21:56:26 by obibby            #+#    #+#             */
-/*   Updated: 2022/08/07 16:03:52 by obibby           ###   ########.fr       */
+/*   Updated: 2022/08/07 19:20:06 by obibby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	init_struct(t_info *info, int argc)
 	info->total = argc - 1;
 	info->best_count = 0;
 	info->best_method = 0;
+	info->previous_val = INT_MAX;
 }
 
 int	checkchars(char **argv, int size)

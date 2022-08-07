@@ -6,7 +6,7 @@
 /*   By: obibby <obibby@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 10:54:35 by obibby            #+#    #+#             */
-/*   Updated: 2022/08/07 16:24:55 by obibby           ###   ########.fr       */
+/*   Updated: 2022/08/07 20:36:36 by obibby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	find_max(int *stack, int size)
 	int	x;
 
 	i = 0;
-	x = 0;
+	x = INT_MIN;
 	while (i < size)
 	{
 		if (stack[i] > x)
@@ -73,7 +73,7 @@ int	main(int argc, char *argv[])
 	int		*stack2;
 	int		*sorted;
 	t_info	info;
-	int	i;
+	//int	i;
 
 	if (checkinput(argv, argc - 1) > 0)
 		return (0);
@@ -86,10 +86,10 @@ int	main(int argc, char *argv[])
 		largesort(stack1, stack2, sorted, &info);
 	else
 		smallsort(stack1, stack2, &info);
-	i = 0;
+	/*i = 0;
 	while (i < info.size1)
 		ft_printf("%d ", stack1[i++]);
-	ft_printf("\n");
+	ft_printf("\n");*/
 	free(stack1);
 	free(stack2);
 	free(sorted);
