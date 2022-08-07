@@ -6,7 +6,7 @@
 /*   By: obibby <obibby@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 21:56:26 by obibby            #+#    #+#             */
-/*   Updated: 2022/07/27 20:15:32 by obibby           ###   ########.fr       */
+/*   Updated: 2022/08/07 16:03:52 by obibby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,36 +16,9 @@ void	init_struct(t_info *info, int argc)
 {
 	info->size1 = argc - 1;
 	info->size2 = 0;
-	info->sort = 0;
-	if (argc - 1 <= 100)
-		info->divtotal = 4;
-	if (argc - 1 > 100)
-		info->divtotal = 8;
-	info->div = (info->size1 / 2);
 	info->total = argc - 1;
-	info->currentdiv = 0;
-}
-
-int	check_sorted(int *stack, int size, int n)
-{
-	int	i;
-	int	sorted;
-
-	i = 0;
-	sorted = 1;
-	while (n == 1 && i < size - 1)
-	{
-		if (stack[i] > stack[i + 1])
-			sorted = 0;
-		i++;
-	}
-	while (n == 2 && i < size - 1)
-	{
-		if (stack[i] < stack[i + 1])
-			sorted = 0;
-		i++;
-	}
-	return (sorted);
+	info->best_count = 0;
+	info->best_method = 0;
 }
 
 int	checkchars(char **argv, int size)

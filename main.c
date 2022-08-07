@@ -6,7 +6,7 @@
 /*   By: obibby <obibby@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 10:54:35 by obibby            #+#    #+#             */
-/*   Updated: 2022/08/06 21:19:06 by obibby           ###   ########.fr       */
+/*   Updated: 2022/08/07 16:24:55 by obibby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int	main(int argc, char *argv[])
 	int		*stack2;
 	int		*sorted;
 	t_info	info;
+	int	i;
 
 	if (checkinput(argv, argc - 1) > 0)
 		return (0);
@@ -82,9 +83,13 @@ int	main(int argc, char *argv[])
 	sorted = ft_calloc(argc, sizeof(int));
 	presort(stack1, argv, sorted, argc - 1);
 	if (argc > 6)
-		newsort(stack1, stack2, sorted, &info);
+		largesort(stack1, stack2, sorted, &info);
 	else
 		smallsort(stack1, stack2, &info);
+	i = 0;
+	while (i < info.size1)
+		ft_printf("%d ", stack1[i++]);
+	ft_printf("\n");
 	free(stack1);
 	free(stack2);
 	free(sorted);
