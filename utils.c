@@ -6,7 +6,7 @@
 /*   By: obibby <obibby@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 12:51:19 by obibby            #+#    #+#             */
-/*   Updated: 2022/07/24 13:00:21 by obibby           ###   ########.fr       */
+/*   Updated: 2022/08/07 22:11:12 by obibby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	sort_rem(int *stack1, int *stack2, t_info *info)
 	int	i;
 
 	i = 0;
-	while (i < info->size1 - 1)
+	while (i < info->size[1] - 1)
 	{
 		if (stack1[i] > stack2[0] && ((i > 0 && (stack1[i - 1] < stack2[0]
 						|| stack1[i - 1] == info->max1))
@@ -27,9 +27,8 @@ void	sort_rem(int *stack1, int *stack2, t_info *info)
 	}
 	if (i == 1 || i == 2)
 		while (i-- > 0)
-			stack_rotate(stack1, info->size1, 1, "ra\n");
+			stack_rotate(info, 1, 1, "ra\n");
 	else if (i > 2)
-		stack_rotate(stack1, info->size1, -1, "rra\n");
-	ft_printf("pa\n");
-	push_to(stack2, stack1, info->size2--, info->size1++);
+		stack_rotate(info, 1, -1, "rra\n");
+	push_to(stack1, stack2, info, -1);
 }
