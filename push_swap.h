@@ -6,7 +6,7 @@
 /*   By: obibby <obibby@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 21:51:03 by obibby            #+#    #+#             */
-/*   Updated: 2022/08/09 21:59:02 by obibby           ###   ########.fr       */
+/*   Updated: 2022/08/10 23:53:31 by obibby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ typedef struct s_info {
 	int	min1;
 	int	min2;
 	int	trial;
-	int	m_count[5];
+	int	use_swap;
+	int	m_count[8];
 	int	total;
 	int	start_val;
 	int	current_val;
@@ -33,6 +34,20 @@ typedef struct s_info {
 	int	best_method;
 	int	best_index;
 	int	best_count;
+	int	best_count2;
+	int	coord_next;
+	int	dir_next;
+	int	val_next;
+	int ra;
+	int	rb;
+	int	rra;
+	int	rrb;
+	int	ra2;
+	int	rb2;
+	int	rra2;
+	int	rrb2;
+	int	i0;
+	int	j0;
 	int	swap_count;
 	int	best_val;
 	int	rotate_1;

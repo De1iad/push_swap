@@ -6,7 +6,7 @@
 /*   By: obibby <obibby@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 22:02:07 by obibby            #+#    #+#             */
-/*   Updated: 2022/08/09 22:15:36 by obibby           ###   ########.fr       */
+/*   Updated: 2022/08/11 00:00:16 by obibby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	stack_rotate(t_info *info, int s_id, int dir, char *str)
 	int	temp;
 
 	i = 0;
-	if (info->trial == 0 || info->trial > 3)
+	if (info->trial == 0 || info->trial == 7)
 		ft_printf("%s", str);
 	if (str[0])
 		info->m_count[info->trial]++;
@@ -71,7 +71,7 @@ int	push_to(int *stack1, int *stack2, t_info *info, int dir)
 	info->m_count[info->trial]++;
 	if (dir == 1)
 	{
-		if (info->trial == 0 || info->trial > 3)
+		if (info->trial == 0 || info->trial == 7)
 			ft_printf("pb\n");
 		stack_shift(stack2, info->size[2]++, -1);
 		stack2[0] = stack1[0];
@@ -80,7 +80,7 @@ int	push_to(int *stack1, int *stack2, t_info *info, int dir)
 	}
 	if (dir == -1)
 	{
-		if (info->trial == 0 || info->trial > 3)
+		if (info->trial == 0 || info->trial == 7)
 			ft_printf("pa\n");
 		stack_shift(stack1, info->size[1]++, -1);
 		stack1[0] = stack2[0];
@@ -94,7 +94,7 @@ void	swap(int *stack, t_info *info, char *str)
 {
 	int	temp;
 
-	if (info->trial == 0 || info->trial > 3)
+	if (info->trial == 0 || info->trial == 7)
 		ft_printf("%s", str);
 	if (str[0])
 		info->m_count[info->trial]++;

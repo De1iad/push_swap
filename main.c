@@ -6,7 +6,7 @@
 /*   By: obibby <obibby@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 10:54:35 by obibby            #+#    #+#             */
-/*   Updated: 2022/08/09 22:26:19 by obibby           ###   ########.fr       */
+/*   Updated: 2022/08/10 23:59:23 by obibby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ int	main(int argc, char *argv[])
 	int		*stack2;
 	int		*sorted;
 	t_info	info;
-	//int	i;
+	int	i;
+	int	x;
 
 	if (checkinput(argv, argc - 1) > 0)
 		return (0);
@@ -84,56 +85,60 @@ int	main(int argc, char *argv[])
 	sorted = ft_calloc(argc, sizeof(int));
 	presort(stack1, argv, sorted, argc - 1);
 	init_struct(&info, argc, stack1, stack2);
-	info.trial = 3;
+	info.trial = 6;
+	info.use_swap = 2;
 	info.m_count[0] = 0;
 	info.m_count[1] = 0;
 	info.m_count[2] = 0;
 	info.m_count[3] = 0;
 	info.m_count[4] = 0;
-
+	info.m_count[5] = 0;
+	info.m_count[6] = 0;
+	info.m_count[7] = 0;
 	if (argc <= 6)
 		smallsort(stack1, stack2, &info);
 	else
 	{
-		m1_begin(stack1, stack2, &info);
-		/*i = 0;
-		while (i < info.size[1])
-			ft_printf("%d ", stack1[i++]);
-		ft_printf("\n");*/
-		info.trial--;
-		presort(stack1, argv, sorted, argc - 1);
-		init_struct(&info, argc, stack1, stack2);
-		m1_begin(stack1, stack2, &info);
-		info.trial--;
-		presort(stack1, argv, sorted, argc - 1);
-		init_struct(&info, argc, stack1, stack2);
-		m2_begin(stack1, stack2, sorted, &info);
-		/*i = 0;
-		while (i < info.size[1])
-			ft_printf("%d ", stack1[i++]);
-		ft_printf("\n");
-		pause();*/
-		info.trial--;
-		presort(stack1, argv, sorted, argc - 1);
-		/*ft_printf("m1 moves: %d, m2 moves: %d\n", info.m_count[1], info.m_count[2]);
-		pause();*/
-		init_struct(&info, argc, stack1, stack2);
-		/*ft_printf("m1: %d, m2: %d\n", info.m_count[2], info.m_count[1]);
-		pause();*/
-		if (info.m_count[2] <= info.m_count[1] || info.m_count[3] <= info.m_count[1])
+		while (info.use_swap-- > 0)
 		{
-			if (info.m_count[3] <= info.m_count[2])
-				info.trial = 4;
 			m1_begin(stack1, stack2, &info);
+			info.trial--;
+			presort(stack1, argv, sorted, argc - 1);
+			init_struct(&info, argc, stack1, stack2);
+			m1_begin(stack1, stack2, &info);
+			info.trial--;
+			presort(stack1, argv, sorted, argc - 1);
+			init_struct(&info, argc, stack1, stack2);
+			m2_begin(stack1, stack2, sorted, &info);
+			info.trial--;
+			presort(stack1, argv, sorted, argc - 1);
+			init_struct(&info, argc, stack1, stack2);
+		}
+		i = 1;
+		x = 1;
+		while (i++ < 6)
+			if (info.m_count[i] < info.m_count[x])
+				x = i;
+		if (x == 4 || x == 1)
+		{
+			if (x == 4)
+				info.use_swap = 1;
+			m2_begin(stack1, stack2, sorted, &info);
 		}
 		else
-			m2_begin(stack1, stack2, sorted, &info);
+		{
+			if (x == 3 || x == 6)
+				info.trial = 7;
+			if (x == 5 || x == 6)
+				info.use_swap = 1;
+			m1_begin(stack1, stack2, &info);
+		}
 	}
 	/*i = 0;
 	while (i < info.size[1])
 		ft_printf("%d ", stack1[i++]);
 	ft_printf("\n");*/
-	//ft_printf("m1: %d, m2: %d, m3: %d, m4: %d, m0: %d\n", info.m_count[1], info.m_count[2], info.m_count[3], info.m_count[4], info.m_count[0]);
+	//ft_printf("m1: %d, m2: %d, m3: %d, m4: %d, m5: %d, m6: %d, m7: %d, m0: %d\n", info.m_count[1], info.m_count[2], info.m_count[3], info.m_count[4], info.m_count[5], info.m_count[6], info.m_count[7], info.m_count[0]);
 	free(stack1);
 	free(stack2);
 	free(sorted);

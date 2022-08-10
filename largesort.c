@@ -6,11 +6,99 @@
 /*   By: obibby <obibby@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 15:39:48 by obibby            #+#    #+#             */
-/*   Updated: 2022/08/09 22:02:38 by obibby           ###   ########.fr       */
+/*   Updated: 2022/08/10 23:57:46 by obibby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+void	find_next(int *stack1, int *stack2, t_info *info)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	j = -1;
+	info->best_count2 = info->total;
+	while ((info->best_method == 1 || info->best_method == 3) && ++i <= info->rotate_2);
+	while (info->best_method % 2 == 0 && ++i <= ((info->size[2] - info->rotate_2) % info->size[2]));
+	while ((info->best_method == 1 || info->best_method == 3) && ++j < info->rotate_1);
+	while (info->best_method % 2 == 0 && ++j < (info->size[1] - info->rotate_1) % info->size[1]);
+	info->i0 = i;
+	info->j0 = j;
+	//ft_printf("i: %d, ival: %d, j: %d, jval: %d, rot2: %d, s0: %d\n", i % info->size[2], stack2[i % info->size[2]], j % info->size[1], stack1[j % info->size[1]], info->rotate_2, stack2[0]);
+	while (i - info->i0 < info->size[2] - 1)
+	{
+		j = info->j0;
+		if (stack1[j % info->size[1]] < stack2[i % info->size[2]] && stack2[i % info->size[2]] < info->max1)
+			while (stack1[j % info->size[1]] < stack2[i % info->size[2]])
+				j++;
+		else if (stack2[i % info->size[2]] > info->min1 && stack2[i % info->size[2]] < info->max1)
+		{
+			if (stack1[info->size[1] - 1] > stack2[i % info->size[2]])
+			{
+				while (stack1[j % info->size[1]] > stack2[i % info->size[2]])
+					j++;
+				while (stack1[j % info->size[1]] < stack2[i % info->size[2]])
+					j++;
+			}
+		}
+		else if (stack2[i % info->size[2]] > info->max1)
+			while (stack1[j++ % info->size[1]] != info->max1);
+		else if (stack2[i % info->size[2]] < info->min1)
+		{
+			while (stack1[j % info->size[1]] != info->min1)
+				j++;
+		}
+		info->rb2 = i - info->i0;
+		info->ra2 = j - info->j0;
+		info->rrb2 = (info->size[2] - (i - info->i0)) % info->size[2];
+		info->rra2 = (info->size[1] - (j - info->j0)) % info->size[1];
+		if (info->rb2 + info->rra2 < info->best_count2)
+		{
+			info->best_count2 = info->rb2 + info->rra2;
+			info->dir_next = 1;
+			info->val_next = stack2[i % info->size[2]];
+		}
+		if (info->ra2 + info->rrb2 < info->best_count2)
+		{
+			info->best_count2 = info->ra2 + info->rrb2;
+			info->dir_next = -1;
+			info->val_next = stack2[i % info->size[2]];
+		}
+		if ((info->ra2 < info->rra2 && info->rb2 < info->rra2) || (info->ra2 < info->rrb2 && info->rb2 < info->rrb2))
+		{
+			if (info->ra2 < info->rb2 && info->rb2 <= info->best_count2)
+			{
+				info->best_count2 = info->rb2;
+				info->dir_next = 1;
+				info->val_next = stack2[i % info->size[2]];
+			}
+			else if (info->rb2 < info->ra2 && info->ra2 <= info->best_count2)
+			{
+				info->best_count2 = info->ra2;
+				info->dir_next = 1;
+				info->val_next = stack2[i % info->size[2]];
+			}
+		}
+		else
+		{
+			if (info->rra2 < info->rrb2 && info->rrb2 <= info->best_count2)
+			{
+				info->best_count2 = info->rrb2;
+				info->dir_next = -1;
+				info->val_next = stack2[i % info->size[2]];
+			}
+			if (info->rrb2 < info->rra2 && info->rra2 <= info->best_count2)
+			{
+				info->best_count2 = info->rra2;
+				info->dir_next = -1;
+				info->val_next = stack2[i % info->size[2]];
+			}
+		}
+		i++;
+	}
+}
 
 int	sorted(int *stack, t_info *info)
 {
@@ -101,11 +189,9 @@ void	check_path(int *stack1, int *stack2, t_info *info)
 {
 	int	i;
 	int	j;
-	int	mc_rr;
-	int	mc_rrr;
 
 	i = -1;
-	info->best_count = info->total;
+	info->best_count = info->total * 2;
 	info->min1 = find_min(stack1, info->size[1]);
 	info->max1 = find_max(stack1, info->size[1]);
 	while (++i < info->size[2])
@@ -131,37 +217,64 @@ void	check_path(int *stack1, int *stack2, t_info *info)
 			while (stack1[j] != info->min1)
 				j++;
 		}
-		if (i >= j)
-			mc_rr = i;
-		else if (i < j)
-			mc_rr = j;
-		if (info->size[2] - i >= info->size[1] - j)
-			mc_rrr = info->size[2] - i;
-		else if (info->size[2] - i < info->size[1] - j)
-			mc_rrr = info->size[1] - j;
-		if (mc_rr < mc_rrr && mc_rr < info->best_count)
+		info->rb = i;
+		info->ra = j;
+		info->rrb = (info->size[2] - i) % info->size[2];
+		info->rra = (info->size[1] - j) % info->size[1];
+		if (info->rb + info->rra < info->best_count)
 		{
-			info->best_method = 1;
-			info->best_val = stack2[i];
-			info->rotate_1 = j;
+			info->best_method = 3;
+			info->rotate_1 = (info->size[1] - j) % info->size[1];
 			info->rotate_2 = i;
-			info->best_count = mc_rr;
+			info->best_count = info->rb + info->rra;
 		}
-		else if (mc_rrr < mc_rr && mc_rrr < info->best_count)
+		if (info->ra + info->rrb < info->best_count)
 		{
-			info->best_method = 2;
-			info->best_val = stack2[i];
-			info->rotate_1 = info->size[1] - j;
-			info->rotate_2 = info->size[2] - i;
-			info->best_count = mc_rrr;
+			info->best_method = 4;
+			info->rotate_1 = j;
+			info->rotate_2 = (info->size[2] - i) % info->size[2];
+			info->best_count = info->ra + info->rrb;
+		}
+		if ((info->ra < info->rra && info->rb < info->rra) || (info->ra < info->rrb && info->rb < info->rrb))
+		{
+			if (info->ra < info->rb && info->rb <= info->best_count)
+			{
+				info->best_method = 1;
+				info->rotate_1 = j;
+				info->rotate_2 = i;
+				info->best_count = info->rb;
+			}
+			else if (info->rb < info->ra && info->ra <= info->best_count)
+			{
+				info->best_method = 1;
+				info->rotate_1 = j;
+				info->rotate_2 = i;
+				info->best_count = info->ra;
+			}
+		}
+		else
+		{
+			if (info->rra < info->rrb && info->rrb <= info->best_count)
+			{
+				info->best_method = 2;
+				info->rotate_1 = (info->size[1] - j) % info->size[1];
+				info->rotate_2 = (info->size[2] - i) % info->size[2];
+				info->best_count = info->rrb;
+			}
+			if (info->rrb < info->rra && info->rra <= info->best_count)
+			{
+				info->best_method = 2;
+				info->rotate_1 = (info->size[1] - j) % info->size[1];
+				info->rotate_2 = (info->size[2] - i) % info->size[2];
+				info->best_count = info->rra;
+			}
 		}
 	}
+	find_next(stack1, stack2, info);
 }
 
 void	sort_b(int *stack1, int *stack2, t_info *info)
 {
-	//int i;
-
 	while (info->size[2] > 0)
 	{
 		check_path(stack1, stack2, info);
@@ -176,7 +289,12 @@ void	sort_b(int *stack1, int *stack2, t_info *info)
 			while (info->rotate_1-- > 0)
 				stack_rotate(info, 1, 1, "ra\n");
 			while (info->rotate_2-- > 0)
-				stack_rotate(info, 2, 1, "rb\n");
+			{
+				if (info->use_swap == 1 && info->rotate_2 == 0 && info->dir_next == -1)
+					swap(stack2, info, "sb\n");
+				else
+					stack_rotate(info, 2, 1, "rb\n");
+			}
 		}
 		if (info->best_method == 2)
 		{
@@ -191,16 +309,26 @@ void	sort_b(int *stack1, int *stack2, t_info *info)
 			while (info->rotate_2-- > 0)
 				stack_rotate(info, 2, -1, "rrb\n");
 		}
+		if (info->best_method == 3)
+		{
+			while (info->rotate_1-- > 0)
+				stack_rotate(info, 1, -1, "rra\n");
+			while (info->rotate_2-- > 0)
+			{
+				if (info->use_swap == 1 && info->rotate_2 == 0 && info->dir_next == -1)
+					swap(stack2, info, "sb\n");
+				else
+					stack_rotate(info, 2, 1, "rb\n");
+			}
+		}
+		if (info->best_method == 4)
+		{
+			while (info->rotate_1-- > 0)
+				stack_rotate(info, 1, 1, "ra\n");
+			while (info->rotate_2-- > 0)
+				stack_rotate(info, 2, -1, "rrb\n");
+		}
 		push_to(stack1, stack2, info, -1);
-		/*i = 0;
-		while (i < info->size1)
-			ft_printf("%d ", stack1[i++]);
-		ft_printf("\n");
-		i = 0;
-		while (i < info->size2)
-			ft_printf("%d ", stack2[i++]);
-		ft_printf("\n");
-		sleep(1);*/
 	}
 }
 
@@ -232,7 +360,7 @@ void	push_m1(int *stack1, int *stack2, t_info *info)
 			if (info->current_val == stack1[0])
 			{
 				//ft_printf("current: %d, previous: %d\n", info->current_val, info->previous_val);
-				if (info->previous_val < stack1[1] && info->current_val > stack1[1] && info->trial > 2)
+				if (info->previous_val < stack1[1] && info->current_val > stack1[1] && (info->trial == 3 || info->trial > 5))
 					swap(stack1, info, "sa\n");
 				info->previous_val = info->current_val;
 				stack_rotate(info, 1, 1, "ra\n");
@@ -307,7 +435,7 @@ void	m1_begin(int *stack1, int *stack2, t_info *info)
 				info->current_val = stack1[(i + j) % info->total];
 				count++;
 				//ft_printf("count: %d, current val: %d, previous val: %d\n", count, info->current_val, info->previous_val);
-				if (stack1[(i + j + 1) % info->total] < info->current_val && stack1[(i + j + 1) % info->total] > info->previous_val && info->trial > 2)
+				if (stack1[(i + j + 1) % info->total] < info->current_val && stack1[(i + j + 1) % info->total] > info->previous_val && (info->trial == 3 || info->trial > 5))
 					swap++;
 			}
 		}
