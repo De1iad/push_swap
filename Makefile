@@ -1,7 +1,7 @@
 NAME	=	push_swap
 CC		=	gcc
 CFLAGS	=	-Wall -Wextra -Werror
-SRCS	=	main.c smallsort.c checkinput.c operations.c utils.c largesort.c
+SRCS	=	main.c smallsort.c check_input.c check_path.c operations.c utils.c largesort.c method1.c method2.c
 LIBFT	=	libft/
 
 all:	$(NAME)

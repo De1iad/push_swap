@@ -1,28 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checkinput.c                                       :+:      :+:    :+:   */
+/*   check_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obibby <obibby@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 21:56:26 by obibby            #+#    #+#             */
-/*   Updated: 2022/08/09 13:23:51 by obibby           ###   ########.fr       */
+/*   Updated: 2022/08/11 14:37:49 by obibby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	init_struct(t_info *info, int argc, int *stack1, int *stack2)
+void	init_vals(t_info *d, int argc)
 {
-	info->size[1] = argc - 1;
-	info->size[2] = 0;
-	info->total = argc - 1;
-	info->best_count = 0;
-	info->best_method = 0;
-	info->previous_val = INT_MAX;
-	info->swap_count = 0;
-	info->stack[1] = stack1;
-	info->stack[2] = stack2;
+	d->size[1] = argc - 1;
+	d->size[2] = 0;
+	d->best_count = 0;
+	d->best_method = 0;
+	d->previous_val = INT_MAX;
+	d->swap_count = 0;
+}
+
+void	init_struct(t_info *d, int argc, int *stack1, int *stack2)
+{
+	d->trial = 3;
+	d->use_swap = 2;
+	d->m_count[0] = 0;
+	d->m_count[1] = 0;
+	d->m_count[2] = 0;
+	d->m_count[3] = 0;
+	d->m_count[4] = 0;
+	d->m_count[5] = 0;
+	d->m_count[6] = 0;
+	d->m_count[7] = 0;
+	d->total = argc - 1;
+	d->stack[1] = stack1;
+	d->stack[2] = stack2;
+	init_vals(d, argc);
 }
 
 int	checkchars(char **argv, int size)
@@ -47,7 +62,7 @@ int	checkchars(char **argv, int size)
 	return (0);
 }
 
-int	checkinput(char **argv, int s)
+int	check_input(char **argv, int s)
 {
 	int	i;
 	int	j;

@@ -6,7 +6,7 @@
 /*   By: obibby <obibby@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 22:02:07 by obibby            #+#    #+#             */
-/*   Updated: 2022/08/11 00:00:16 by obibby           ###   ########.fr       */
+/*   Updated: 2022/08/11 13:59:33 by obibby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,72 +39,72 @@ void	stack_shift(int *stack, int size, int dir)
 	}
 }
 
-void	stack_rotate(t_info *info, int s_id, int dir, char *str)
+void	stack_rotate(t_info *d, int s_id, int dir, char *str)
 {
 	int	i;
 	int	temp;
 
 	i = 0;
-	if (info->trial == 0 || info->trial == 7)
+	if (d->trial == 0 || d->trial == 4)
 		ft_printf("%s", str);
 	if (str[0])
-		info->m_count[info->trial]++;
+		d->m_count[d->trial]++;
 	if (dir == 1)
 	{
-		temp = info->stack[s_id][0];
-		while (++i <= info->size[s_id] - 1)
-			info->stack[s_id][i - 1] = info->stack[s_id][i];
-		info->stack[s_id][info->size[s_id] - 1] = temp;
+		temp = d->stack[s_id][0];
+		while (++i <= d->size[s_id] - 1)
+			d->stack[s_id][i - 1] = d->stack[s_id][i];
+		d->stack[s_id][d->size[s_id] - 1] = temp;
 	}
 	if (dir == -1)
 	{
-		i = info->size[s_id] - 1;
-		temp = info->stack[s_id][i];
+		i = d->size[s_id] - 1;
+		temp = d->stack[s_id][i];
 		while (i-- > 0)
-			info->stack[s_id][i + 1] = info->stack[s_id][i];
-		info->stack[s_id][0] = temp;
+			d->stack[s_id][i + 1] = d->stack[s_id][i];
+		d->stack[s_id][0] = temp;
 	}
 }
 
-int	push_to(int *stack1, int *stack2, t_info *info, int dir)
+int	push_to(int *stack1, int *stack2, t_info *d, int dir)
 {
-	info->m_count[info->trial]++;
+	d->m_count[d->trial]++;
 	if (dir == 1)
 	{
-		if (info->trial == 0 || info->trial == 7)
+		if (d->trial == 0 || d->trial == 4)
 			ft_printf("pb\n");
-		stack_shift(stack2, info->size[2]++, -1);
+		stack_shift(stack2, d->size[2]++, -1);
 		stack2[0] = stack1[0];
 		stack1[0] = 0;
-		stack_shift(stack1, info->size[1]--, 1);
+		stack_shift(stack1, d->size[1]--, 1);
 	}
 	if (dir == -1)
 	{
-		if (info->trial == 0 || info->trial == 7)
+		if (d->trial == 0 || d->trial == 4)
 			ft_printf("pa\n");
-		stack_shift(stack1, info->size[1]++, -1);
+		stack_shift(stack1, d->size[1]++, -1);
 		stack1[0] = stack2[0];
 		stack2[0] = 0;
-		stack_shift(stack2, info->size[2]--, 1);
+		stack_shift(stack2, d->size[2]--, 1);
 	}
 	return (0);
 }
 
-void	swap(int *stack, t_info *info, char *str)
+void	swap(int *stack, t_info *d, char *str)
 {
 	int	temp;
 
-	if (info->trial == 0 || info->trial == 7)
+	if (d->trial == 0 || d->trial == 4)
 		ft_printf("%s", str);
 	if (str[0])
-		info->m_count[info->trial]++;
+		d->m_count[d->trial]++;
 	temp = stack[0];
 	stack[0] = stack[1];
 	stack[1] = temp;
 }
 
-void	swap_both(int *stack1, int *stack2, t_info *info)
+void	swap_both(int *stack1, int *stack2, t_info *d)
 {
-	swap(stack1, info, "ss\n");
-	swap(stack2, info, "");
+	swap(stack1, d, "ss\n");
+	swap(stack2, d, "");
 }
