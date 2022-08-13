@@ -6,7 +6,7 @@
 /*   By: obibby <obibby@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 13:33:48 by obibby            #+#    #+#             */
-/*   Updated: 2022/08/11 16:47:11 by obibby           ###   ########.fr       */
+/*   Updated: 2022/08/13 10:12:15 by obibby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	get_count_m2(t_info *d, int *sorted, int *i, int *j)
 		== sorted[(d->current_index + d->count + 1) % d->total])
 	{
 		(*j)++;
-		d->count += 2;
+		d->count++;
 	}	
 }
 

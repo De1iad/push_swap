@@ -6,7 +6,7 @@
 /*   By: obibby <obibby@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 21:49:26 by obibby            #+#    #+#             */
-/*   Updated: 2022/08/11 13:11:23 by obibby           ###   ########.fr       */
+/*   Updated: 2022/08/13 11:29:56 by obibby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,11 +113,7 @@ int	smallsort(int *stack1, int *stack2, t_info *d)
 	else if (d->size[1] == 3)
 		sort3(stack1, d);
 	else if (d->size[1] == 4)
-	{
-		push_to(stack1, stack2, d, 1);
-		sort3(stack1, d);
-		push_to(stack1, stack2, d, -1);
-	}
+		sort4(stack1, stack2, d, 0);
 	else if (d->size[1] == 5)
 		sort5(stack1, stack2, d);
 	return (0);

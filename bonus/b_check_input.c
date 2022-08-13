@@ -1,43 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_input.c                                      :+:      :+:    :+:   */
+/*   b_check_input.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obibby <obibby@student.42wolfsburg.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 21:56:26 by obibby            #+#    #+#             */
-/*   Updated: 2022/08/13 11:21:27 by obibby           ###   ########.fr       */
+/*   Updated: 2022/08/13 10:14:46 by obibby           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "checker.h"
 
-void	init_vals(t_info *d, int argc)
+void	rotate_both(int dir, t_info *d)
 {
-	d->size[1] = argc - 1;
-	d->size[2] = 0;
-	d->best_count = 0;
-	d->best_method = 0;
-	d->previous_val = INT_MAX;
-	d->swap_count = 0;
+	if (dir == 1)
+	{
+		stack_rotate(d, 0, 1);
+		stack_rotate(d, 1, 1);
+	}
+	else if (dir == -1)
+	{
+		stack_rotate(d, 0, -1);
+		stack_rotate(d, 1, -1);
+	}
 }
 
-void	init_struct(t_info *d, int argc, int *stack1, int *stack2)
+void	check_sorted(int *stack1, int *stack2, t_info *d)
 {
-	d->trial = 3;
-	d->use_swap = 2;
-	d->m_count[0] = 0;
-	d->m_count[1] = 0;
-	d->m_count[2] = 0;
-	d->m_count[3] = 0;
-	d->m_count[4] = 0;
-	d->m_count[5] = 0;
-	d->m_count[6] = 0;
-	d->m_count[7] = 0;
-	d->total = argc - 1;
-	d->stack[1] = stack1;
-	d->stack[2] = stack2;
-	init_vals(d, argc);
+	int	i;
+
+	if (d->size[0] < d->total)
+	{
+		ft_printf("KO\n");
+		error_exit(stack1, stack2, 0);
+	}
+	i = 0;
+	while (i < d->size[0] - 1)
+	{
+		if (stack1[i] > stack1[i + 1])
+		{
+			ft_printf("KO\n");
+			error_exit(stack1, stack2, 0);
+		}
+		i++;
+	}
+	ft_printf("OK\n");
+	error_exit(stack1, stack2, 0);
 }
 
 int	checkchars(char **argv, int size)
@@ -70,17 +79,15 @@ int	check_input(char **argv, int s)
 
 	i = 0;
 	j = 0;
-	ord = 1;
+	ord = 0;
 	if (s == 0)
 		ord = 2;
-	if (ord == 1 && checkchars(argv, s) == 1)
+	else if (checkchars(argv, s) == 1)
 		ord = 3;
-	while (ord != 2 && ord != 3 && i++ < s)
+	while (ord < 2 && i++ < s)
 	{
 		if (ft_atoi(argv[i]) > INT_MAX || ft_atoi(argv[i]) < INT_MIN)
 			ord = 3;
-		else if (ord == 1 && i < s && ft_atoi(argv[i + 1]) < ft_atoi(argv[i]))
-			ord = 0;
 		while (j++ < s)
 			if (ft_atoi(argv[i]) == ft_atoi(argv[j]) && i != j)
 				ord = 3;
@@ -89,18 +96,4 @@ int	check_input(char **argv, int s)
 	if (ord == 3)
 		write(STDERR_FILENO, "Error\n", 6);
 	return (ord);
-}
-
-void	rot4(int *stack1, t_info *d)
-{
-	int	i;
-
-	i = 0;
-	while (stack1[i] != d->min1)
-		i++;
-	if (i == 3)
-		stack_rotate(d, 1, -1, "rra\n");
-	else
-		while (i-- > 0)
-			stack_rotate(d, 1, 1, "ra\n");
 }

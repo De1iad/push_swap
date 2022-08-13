@@ -1,26 +1,28 @@
 NAME	=	push_swap
+NAME2	=	checker
 CC		=	gcc
 CFLAGS	=	-Wall -Wextra -Werror
 SRCS	=	main.c smallsort.c check_input.c check_path.c operations.c utils.c largesort.c method1.c method2.c
-LIBFT	=	libft/
+SRCS2	=	bonus/checker.c bonus/b_operations.c bonus/b_check_input.c bonus/exec_commands.c
+LIBFT	=	libft/libft.a
 
 all:	$(NAME)
 
-$(NAME): $(SRCS)
-		make re -C $(LIBFT)
-		gcc $(CFLAGS) $(SRCS) ./libft/libft.a $(INCLUDE) -o $(NAME)
+$(NAME): $(SRCS) $(LIBFT)
+		gcc $(CFLAGS) $(SRCS) $(LIBFT) -o $(NAME)
 
-bonus:
+bonus: $(SRCS2) $(LIBFT)
+		gcc $(CFLAGS) $(SRCS2) $(LIBFT) -o $(NAME2)
 
-	make re -C $(LIBFT)
-	gcc $(CFLAGS) $(SRCS2) ./libft/libft.a $(INCLUDE) -o $(NAME)
+$(LIBFT):
+		make -C libft/
 
 clean:
-		rm -f *.o
-		make clean -C $(LIBFT)
+		make clean -C libft/
 
 fclean: clean
 		rm -f $(NAME)
-		make fclean -C $(LIBFT)
+		rm -f $(NAME2)
+		make fclean -C libft/
 
 re: fclean all
